@@ -22,3 +22,15 @@ El sistema evalúa reglas de negocio para asignar el tipo de envío (gratis, exp
 - Envío express si ítems ≥ 5 o monto ≥ 300.000.  
 - Envío estándar en los demás casos.  
 - Recargo adicional para envíos al exterior.
+
+## Tabla de Variables
+
+| Variable        | Tipo de dato | Descripción |
+|----------------|-------------|-------------|
+| montoPedido    | decimal     | Valor total del pedido |
+| ciudadDestino  | string      | Ciudad a la que se enviará el pedido |
+| tipoCliente    | string      | Indica si el cliente es nuevo o recurrente |
+| cantidadItems  | int         | Número de productos en el pedido |
+| categoriaEnvio | string      | Tipo de envío asignado |
+| costoEnvio     | decimal     | Valor final del envío |
+| mensaje        | string      | Mensaje informativo para el cliente |
