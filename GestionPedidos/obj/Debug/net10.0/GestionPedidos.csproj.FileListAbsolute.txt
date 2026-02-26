@@ -1,0 +1,15 @@
+C:\Users\Emmanuel Echeverri\Desktop\Lógica\GestionPedidos\GestionPedidos\obj\Debug\net10.0\GestionPedidos.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Emmanuel Echeverri\Desktop\Lógica\GestionPedidos\GestionPedidos\obj\Debug\net10.0\GestionPedidos.AssemblyInfoInputs.cache
+C:\Users\Emmanuel Echeverri\Desktop\Lógica\GestionPedidos\GestionPedidos\obj\Debug\net10.0\GestionPedidos.AssemblyInfo.cs
+C:\Users\Emmanuel Echeverri\Desktop\Lógica\GestionPedidos\GestionPedidos\obj\Debug\net10.0\GestionPedidos.csproj.CoreCompileInputs.cache
+C:\Users\Emmanuel Echeverri\Desktop\Lógica\GestionPedidos\GestionPedidos\obj\Debug\net10.0\GestionPedidos.sourcelink.json
+C:\Users\Emmanuel Echeverri\Desktop\Lógica\GestionPedidos\GestionPedidos\bin\Debug\net10.0\GestionPedidos.exe
+C:\Users\Emmanuel Echeverri\Desktop\Lógica\GestionPedidos\GestionPedidos\bin\Debug\net10.0\GestionPedidos.deps.json
+C:\Users\Emmanuel Echeverri\Desktop\Lógica\GestionPedidos\GestionPedidos\bin\Debug\net10.0\GestionPedidos.runtimeconfig.json
+C:\Users\Emmanuel Echeverri\Desktop\Lógica\GestionPedidos\GestionPedidos\bin\Debug\net10.0\GestionPedidos.dll
+C:\Users\Emmanuel Echeverri\Desktop\Lógica\GestionPedidos\GestionPedidos\bin\Debug\net10.0\GestionPedidos.pdb
+C:\Users\Emmanuel Echeverri\Desktop\Lógica\GestionPedidos\GestionPedidos\obj\Debug\net10.0\GestionPedidos.dll
+C:\Users\Emmanuel Echeverri\Desktop\Lógica\GestionPedidos\GestionPedidos\obj\Debug\net10.0\refint\GestionPedidos.dll
+C:\Users\Emmanuel Echeverri\Desktop\Lógica\GestionPedidos\GestionPedidos\obj\Debug\net10.0\GestionPedidos.pdb
+C:\Users\Emmanuel Echeverri\Desktop\Lógica\GestionPedidos\GestionPedidos\obj\Debug\net10.0\GestionPedidos.genruntimeconfig.cache
+C:\Users\Emmanuel Echeverri\Desktop\Lógica\GestionPedidos\GestionPedidos\obj\Debug\net10.0\ref\GestionPedidos.dll
