@@ -9,11 +9,11 @@ public class Program
         string entradaMontoPedido, tipoCliente, entradaCantidadItems;// ciudadDestino, categoriaDespacho;
 
         Console.WriteLine("Ingrese el monto del pedido:");
-        entradaMontoPedido = Console.ReadLine();
+        entradaMontoPedido = Console.ReadLine()??"";
         while(!decimal.TryParse(entradaMontoPedido, out montoPedido))
         {
             Console.WriteLine("La entrada ingresada no es un número. \nIngrese el monto del pedido:");
-            entradaMontoPedido = Console.ReadLine();
+            entradaMontoPedido = Console.ReadLine()??"";
         }
         Console.WriteLine("El monto ingresado fue:" + montoPedido);
 
@@ -28,12 +28,14 @@ public class Program
 
 
         Console.WriteLine("Ingrese la cantidad de items:");
-        entradaCantidadItems = Console.ReadLine();
+        entradaCantidadItems = Console.ReadLine()??"";
         while(!int.TryParse(entradaCantidadItems, out cantidadItems))
         {
             Console.WriteLine("La entrada ingresada no es un número. \nIngrese la cantidad de items:");
-            entradaCantidadItems= Console.ReadLine();
+            entradaCantidadItems= Console.ReadLine()??"";
         }
+
+        // El código de la primera entrega termina aquí. Se registra la cantidad de items, pero aún no se hace nada con ella.
 
 
     }

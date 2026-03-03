@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Emmanuel Echeverri\\Desktop\\Lógica\\GestionPedidos\\GestionPedidos\\GestionPedidos.csproj": {}
+    "C:\\Users\\Emmanuel Echeverri\\Desktop\\Lógica\\GestionPedidos\\gestionpedidos\\GestionPedidos.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Emmanuel Echeverri\\Desktop\\Lógica\\GestionPedidos\\GestionPedidos\\GestionPedidos.csproj": {
+    "C:\\Users\\Emmanuel Echeverri\\Desktop\\Lógica\\GestionPedidos\\gestionpedidos\\GestionPedidos.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Emmanuel Echeverri\\Desktop\\Lógica\\GestionPedidos\\GestionPedidos\\GestionPedidos.csproj",
+        "projectUniqueName": "C:\\Users\\Emmanuel Echeverri\\Desktop\\Lógica\\GestionPedidos\\gestionpedidos\\GestionPedidos.csproj",
         "projectName": "GestionPedidos",
-        "projectPath": "C:\\Users\\Emmanuel Echeverri\\Desktop\\Lógica\\GestionPedidos\\GestionPedidos\\GestionPedidos.csproj",
+        "projectPath": "C:\\Users\\Emmanuel Echeverri\\Desktop\\Lógica\\GestionPedidos\\gestionpedidos\\GestionPedidos.csproj",
         "packagesPath": "C:\\Users\\Emmanuel Echeverri\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Emmanuel Echeverri\\Desktop\\Lógica\\GestionPedidos\\GestionPedidos\\obj\\",
+        "outputPath": "C:\\Users\\Emmanuel Echeverri\\Desktop\\Lógica\\GestionPedidos\\gestionpedidos\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Emmanuel Echeverri\\AppData\\Roaming\\NuGet\\NuGet.Config"
