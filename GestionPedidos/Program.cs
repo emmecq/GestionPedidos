@@ -4,9 +4,9 @@ public class Program
 {
     public static void Main()
     {
-        decimal montoPedido, costoEnvio;
+        decimal montoPedido, costoEnvio, costoAdicional;
         int cantidadItems;
-        string entradaMontoPedido, tipoCliente, entradaCantidadItems;// ciudadDestino, categoriaDespacho;
+        string entradaMontoPedido, ciudadDestino, tipoCliente, entradaCantidadItems, categoriaDespacho;
 
         Console.WriteLine("Ingrese el monto del pedido:");
         entradaMontoPedido = Console.ReadLine()??"";
@@ -16,6 +16,10 @@ public class Program
             entradaMontoPedido = Console.ReadLine()??"";
         }
         Console.WriteLine("El monto ingresado fue:" + montoPedido);
+
+        Console.WriteLine("Ingrese la ciudad destino:");
+        ciudadDestino = Console.ReadLine()??"";
+
 
 
         Console.WriteLine("Ingrese el tipo de cliente: ");
@@ -35,7 +39,14 @@ public class Program
             entradaCantidadItems= Console.ReadLine()??"";
         }
 
-        // El código de la primera entrega termina aquí. Se registra la cantidad de items, pero aún no se hace nada con ella.
+        if (montoPedido >= 150000 && tipoCliente == "recurrente")
+        {
+            costoEnvio = 0;
+            if (cantidadItems >= 5 || montoPedido >= 300000)
+            {
+                categoriaDespacho = "Express";
+            }
+        }
 
 
     }
