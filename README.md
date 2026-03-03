@@ -1,5 +1,7 @@
 # Clasificador de Pedidos
 
+## Por: Emmanuel Echeverri - Grupo 810
+
 ## Descripción
 Este proyecto implementa un sistema que clasifica pedidos de una tienda en línea y calcula el costo de envío según el monto de la compra, el tipo de cliente, la cantidad de productos y el destino.
 
