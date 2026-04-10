@@ -122,7 +122,7 @@ public class Program
                 case 2:
                 if (pedidos.Count == 0)
                     {
-                        Console.WriteLine("No hay pedidos registrados.")
+                        Console.WriteLine("No hay pedidos registrados.");
                         Environment.Exit(0);
                     }
                     else
@@ -137,7 +137,7 @@ public class Program
                 case 3:
                 if (pedidos.Count == 0)
                     {
-                        Console.WriteLine("No hay pedidos registrados.")
+                        Console.WriteLine("No hay pedidos registrados.");
                         Environment.Exit(0);
                     }
                     else
