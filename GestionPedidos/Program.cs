@@ -2,47 +2,25 @@ using System;
 using System.Collections.Generic;
 
 /// <summary>
-/// Representa un pedido con todos sus datos y costos asociados.
-/// Responsabilidad única: ser el modelo de datos de un pedido.
-/// </summary>
-public class Pedido
-{
-    /// <summary>Monto base del pedido ingresado por el usuario.</summary>
-    public decimal Monto { get; set; }
-
-    /// <summary>Ciudad de destino del pedido.</summary>
-    public string Ciudad { get; set; }
-
-    /// <summary>Tipo de cliente: "nuevo" o "recurrente".</summary>
-    public string TipoCliente { get; set; }
-
-    /// <summary>Cantidad de ítems incluidos en el pedido.</summary>
-    public int CantidadItems { get; set; }
-
-    /// <summary>Categoría de envío calculada: "Gratis", "Express" o "Estándar".</summary>
-    public string Categoria { get; set; }
-
-    /// <summary>Costo de envío derivado de la categoría.</summary>
-    public decimal CostoEnvio { get; set; }
-
-    /// <summary>Costo adicional derivado de la ciudad destino y el monto.</summary>
-    public decimal CostoAdicional { get; set; }
-}
-
-/// <summary>
-/// Clase principal del programa. Contiene el menú, el flujo de registro
-/// y toda la lógica de negocio del sistema de pedidos.
+/// Clase principal del programa.
+/// Controla el flujo general del sistema de pedidos mediante un menú interactivo.
 /// </summary>
 public class Program
 {
     /// <summary>
     /// Punto de entrada del programa.
-    /// Inicializa la lista de pedidos y ejecuta el bucle principal del menú.
+    /// Inicializa las listas de datos y ejecuta el ciclo principal del menú.
     /// </summary>
     public static void Main()
     {
-        // Una sola lista en lugar de 7 listas paralelas.
-        List<Pedido> pedidos = new List<Pedido>();
+        List<decimal> montos = new List<decimal>();
+        List<string> ciudades = new List<string>();
+        List<string> tiposCliente = new List<string>();
+        List<int> cantidadesItems = new List<int>();
+        List<string> categorias = new List<string>();
+        List<decimal> costosEnvio = new List<decimal>();
+        List<decimal> costosAdicionales = new List<decimal>();
+
         int opcion;
 
         Console.WriteLine("Bienvenido.");
@@ -51,13 +29,23 @@ public class Program
         {
             MostrarMenu();
             opcion = LeerOpcionMenu();
-            EjecutarOpcion(opcion, pedidos);
+
+            EjecutarOpcion(
+                opcion,
+                montos,
+                ciudades,
+                tiposCliente,
+                cantidadesItems,
+                categorias,
+                costosEnvio,
+                costosAdicionales
+            );
 
         } while (opcion != 4);
     }
 
     /// <summary>
-    /// Muestra las opciones del menú principal en consola.
+    /// Muestra en consola las opciones disponibles del menú principal.
     /// </summary>
     public static void MostrarMenu()
     {
@@ -69,10 +57,9 @@ public class Program
     }
 
     /// <summary>
-    /// Lee y valida la opción del menú ingresada por el usuario.
-    /// Repite la solicitud hasta recibir un entero entre 1 y 4.
+    /// Solicita al usuario una opción del menú y valida que esté entre 1 y 4.
     /// </summary>
-    /// <returns>Opción válida entre 1 y 4.</returns>
+    /// <returns>Opción válida seleccionada por el usuario.</returns>
     public static int LeerOpcionMenu()
     {
         int opcion;
@@ -91,24 +78,47 @@ public class Program
     }
 
     /// <summary>
-    /// Ejecuta la acción correspondiente a la opción seleccionada en el menú.
+    /// Ejecuta la acción correspondiente a la opción seleccionada.
     /// </summary>
-    /// <param name="opcion">Número de opción elegida (1-4).</param>
-    /// <param name="pedidos">Lista de pedidos registrados en la sesión.</param>
-    public static void EjecutarOpcion(int opcion, List<Pedido> pedidos)
+    /// <param name="opcion">Opción elegida por el usuario.</param>
+    /// <param name="montos">Lista de montos de pedidos.</param>
+    /// <param name="ciudades">Lista de ciudades.</param>
+    /// <param name="tiposCliente">Lista de tipos de cliente.</param>
+    /// <param name="cantidadesItems">Lista de cantidades de ítems.</param>
+    /// <param name="categorias">Lista de categorías.</param>
+    /// <param name="costosEnvio">Lista de costos de envío.</param>
+    /// <param name="costosAdicionales">Lista de costos adicionales.</param>
+    public static void EjecutarOpcion(
+        int opcion,
+        List<decimal> montos,
+        List<string> ciudades,
+        List<string> tiposCliente,
+        List<int> cantidadesItems,
+        List<string> categorias,
+        List<decimal> costosEnvio,
+        List<decimal> costosAdicionales
+    )
     {
         switch (opcion)
         {
             case 1:
-                RegistrarPedido(pedidos);
+                RegistrarPedido(
+                    montos,
+                    ciudades,
+                    tiposCliente,
+                    cantidadesItems,
+                    categorias,
+                    costosEnvio,
+                    costosAdicionales
+                );
                 break;
 
             case 2:
-                MostrarPedidos(pedidos);
+                MostrarPedidos(montos, categorias);
                 break;
 
             case 3:
-                MostrarReportes(pedidos, true);
+                MostrarReportes(montos, true);
                 break;
 
             case 4:
@@ -117,75 +127,53 @@ public class Program
         }
     }
 
-    // =========================================================
-    // REGISTRO DE PEDIDO — separado en tres responsabilidades:
-    //   1. LeerDatosPedido   → captura input del usuario
-    //   2. CalcularPedido    → aplica la lógica de negocio
-    //   3. GuardarPedido     → persiste en la lista
-    // =========================================================
-
     /// <summary>
-    /// Orquesta el flujo completo de registro de un pedido:
-    /// lee los datos del usuario, aplica los cálculos, muestra el resumen y guarda el pedido.
+    /// Registra un nuevo pedido solicitando datos al usuario,
+    /// calculando sus costos y almacenándolo en las listas.
     /// </summary>
-    /// <param name="pedidos">Lista donde se almacenará el nuevo pedido.</param>
-    public static void RegistrarPedido(List<Pedido> pedidos)
+    public static void RegistrarPedido(
+        List<decimal> montos,
+        List<string> ciudades,
+        List<string> tiposCliente,
+        List<int> cantidadesItems,
+        List<string> categorias,
+        List<decimal> costosEnvio,
+        List<decimal> costosAdicionales
+    )
     {
-        Pedido pedido = LeerDatosPedido();
-        CalcularPedido(pedido);
-        MostrarResumen(pedido);
-        GuardarPedido(pedidos, pedido);
+        decimal montoPedido = LeerDecimal("Ingrese el monto del pedido:");
+        string ciudadDestino = LeerTexto("Ingrese la ciudad destino:");
+        string tipoCliente = LeerTipoCliente();
+        int cantidadItems = LeerEntero("Ingrese la cantidad de items:");
+
+        string categoria = CalcularCategoria(montoPedido, cantidadItems, tipoCliente);
+        decimal costoEnvio = CalcularCostoEnvio(categoria);
+        decimal costoAdicional = CalcularCostoAdicional(ciudadDestino, montoPedido);
+
+        MostrarResumen(
+            montoPedido,
+            ciudadDestino,
+            tipoCliente,
+            cantidadItems,
+            categoria,
+            costoEnvio,
+            costoAdicional
+        );
+
+        montos.Add(montoPedido);
+        ciudades.Add(ciudadDestino);
+        tiposCliente.Add(tipoCliente);
+        cantidadesItems.Add(cantidadItems);
+        categorias.Add(categoria);
+        costosEnvio.Add(costoEnvio);
+        costosAdicionales.Add(costoAdicional);
     }
 
     /// <summary>
-    /// Solicita al usuario los datos básicos del pedido y los devuelve
-    /// como un objeto Pedido sin calcular aún.
+    /// Solicita un texto al usuario.
     /// </summary>
-    /// <returns>
-    /// Un Pedido con Monto, Ciudad, TipoCliente y CantidadItems completados.
-    /// </returns>
-    public static Pedido LeerDatosPedido()
-    {
-        return new Pedido
-        {
-            Monto         = LeerDecimal("Ingrese el monto del pedido:"),
-            Ciudad        = LeerTexto("Ingrese la ciudad destino:"),
-            TipoCliente   = LeerTipoCliente(),
-            CantidadItems = LeerEntero("Ingrese la cantidad de items:")
-        };
-    }
-
-    /// <summary>
-    /// Aplica la lógica de negocio sobre el pedido: calcula su categoría,
-    /// costo de envío y costo adicional, asignando los resultados al mismo objeto.
-    /// </summary>
-    /// <param name="pedido">Pedido con datos básicos ya cargados.</param>
-    public static void CalcularPedido(Pedido pedido)
-    {
-        pedido.Categoria      = CalcularCategoria(pedido.Monto, pedido.CantidadItems, pedido.TipoCliente);
-        pedido.CostoEnvio     = CalcularCostoEnvio(pedido.Categoria);
-        pedido.CostoAdicional = CalcularCostoAdicional(pedido.Ciudad, pedido.Monto);
-    }
-
-    /// <summary>
-    /// Agrega el pedido a la lista de pedidos registrados en la sesión.
-    /// </summary>
-    /// <param name="pedidos">Lista destino.</param>
-    /// <param name="pedido">Pedido ya calculado que se desea persistir.</param>
-    public static void GuardarPedido(List<Pedido> pedidos, Pedido pedido)
-    {
-        pedidos.Add(pedido);
-    }
-
-    // =========================================================
-    // LECTURA DE DATOS
-    // =========================================================
-
-    /// <summary>
-    /// Muestra un mensaje en consola y devuelve el texto ingresado por el usuario.
-    /// </summary>
-    /// <param name="mensaje">Texto que se mostrará como prompt.</param>
-    /// <returns>Cadena ingresada por el usuario. Nunca es <c>null</c>.</returns>
+    /// <param name="mensaje">Mensaje mostrado en consola.</param>
+    /// <returns>Texto ingresado por el usuario.</returns>
     public static string LeerTexto(string mensaje)
     {
         Console.WriteLine(mensaje);
@@ -193,11 +181,10 @@ public class Program
     }
 
     /// <summary>
-    /// Muestra un mensaje y lee un número decimal validado.
-    /// Repite la solicitud si la entrada no es convertible a decimal.
+    /// Solicita un número decimal validado.
     /// </summary>
-    /// <param name="mensaje">Texto que se mostrará como prompt.</param>
-    /// <returns>Valor decimal ingresado por el usuario.</returns>
+    /// <param name="mensaje">Mensaje mostrado en consola.</param>
+    /// <returns>Valor decimal válido.</returns>
     public static decimal LeerDecimal(string mensaje)
     {
         decimal numero;
@@ -216,11 +203,10 @@ public class Program
     }
 
     /// <summary>
-    /// Muestra un mensaje y lee un número entero validado.
-    /// Repite la solicitud si la entrada no es convertible a entero.
+    /// Solicita un número entero validado.
     /// </summary>
-    /// <param name="mensaje">Texto que se mostrará como prompt.</param>
-    /// <returns>Valor entero ingresado por el usuario.</returns>
+    /// <param name="mensaje">Mensaje mostrado en consola.</param>
+    /// <returns>Valor entero válido.</returns>
     public static int LeerEntero(string mensaje)
     {
         int numero;
@@ -239,41 +225,28 @@ public class Program
     }
 
     /// <summary>
-    /// Solicita el tipo de cliente y valida que sea "nuevo" o "recurrente".
-    /// Repite la solicitud si el valor ingresado no corresponde a ninguna opción válida.
+    /// Solicita y valida el tipo de cliente ("nuevo" o "recurrente").
     /// </summary>
-    /// <returns>"nuevo" o "recurrente".</returns>
+    /// <returns>Tipo de cliente válido.</returns>
     public static string LeerTipoCliente()
     {
         string tipo;
 
-        Console.WriteLine("Ingrese el tipo de cliente (nuevo / recurrente):");
+        Console.WriteLine("Ingrese el tipo de cliente:");
         tipo = Console.ReadLine() ?? "";
 
         while (tipo != "nuevo" && tipo != "recurrente")
         {
-            Console.WriteLine("Tipo inválido. Ingrese 'nuevo' o 'recurrente':");
+            Console.WriteLine("Tipo inválido.");
             tipo = Console.ReadLine() ?? "";
         }
 
         return tipo;
     }
 
-    // =========================================================
-    // LÓGICA DE NEGOCIO
-    // =========================================================
-
     /// <summary>
-    /// Determina la categoría de envío según el monto, cantidad de ítems y tipo de cliente.
+    /// Determina la categoría del pedido según reglas de negocio.
     /// </summary>
-    /// <param name="monto">Monto del pedido.</param>
-    /// <param name="cantidadItems">Número de ítems en el pedido.</param>
-    /// <param name="tipoCliente">"nuevo" o "recurrente".</param>
-    /// <returns>
-    /// "Gratis" si el monto es ≥ 150.000 y el cliente es recurrente;
-    /// "Express" si hay 5 o más ítems o el monto es ≥ 300.000;
-    /// "Estándar" en cualquier otro caso.
-    /// </returns>
     public static string CalcularCategoria(decimal monto, int cantidadItems, string tipoCliente)
     {
         if (monto >= 150000 && tipoCliente == "recurrente")
@@ -286,11 +259,8 @@ public class Program
     }
 
     /// <summary>
-    /// Calcula el costo de envío según la categoría del pedido.
-    /// Las categorías "Gratis" y "Express" no generan costo; "Estándar" cuesta $5.000.
+    /// Calcula el costo de envío según la categoría.
     /// </summary>
-    /// <param name="categoria">Categoría calculada por CalcularCategoria.</param>
-    /// <returns>0 para "Gratis" o "Express"; 5000 para "Estándar".</returns>
     public static decimal CalcularCostoEnvio(string categoria)
     {
         if (categoria == "Gratis" || categoria == "Express")
@@ -300,24 +270,16 @@ public class Program
     }
 
     /// <summary>
-    /// Calcula el costo adicional basado únicamente en la ciudad de destino.
-    /// Los pedidos al "exterior" tienen un costo adicional de $10.000.
+    /// Calcula el costo adicional basado en la ciudad.
     /// </summary>
-    /// <param name="ciudad">Ciudad de destino del pedido.</param>
-    /// <returns>10000 si la ciudad es "exterior"; 0 en cualquier otro caso.</returns>
     public static decimal CalcularCostoAdicional(string ciudad)
     {
         return ciudad == "exterior" ? 10000 : 0;
     }
 
     /// <summary>
-    /// Sobrecarga: calcula el costo adicional considerando ciudad y monto.
-    /// Aplica un descuento del 20 % sobre el costo base cuando el monto supera $500.000.
-    /// DRY: delega la lógica de ciudad a CalcularCostoAdicional(string).
+    /// Calcula el costo adicional considerando ciudad y monto (con descuento).
     /// </summary>
-    /// <param name="ciudad">Ciudad de destino del pedido.</param>
-    /// <param name="monto">Monto del pedido para evaluar el descuento.</param>
-    /// <returns>Costo adicional con descuento aplicado si corresponde.</returns>
     public static decimal CalcularCostoAdicional(string ciudad, decimal monto)
     {
         decimal costoBase = CalcularCostoAdicional(ciudad);
@@ -328,74 +290,70 @@ public class Program
         return costoBase;
     }
 
-    // =========================================================
-    // PRESENTACIÓN
-    // =========================================================
-
     /// <summary>
-    /// Muestra en consola el resumen completo de un pedido,
-    /// incluyendo el total de costos de envío y adicionales.
+    /// Muestra un resumen detallado del pedido.
     /// </summary>
-    /// <param name="pedido">Pedido ya calculado que se desea mostrar.</param>
-    public static void MostrarResumen(Pedido pedido)
+    public static void MostrarResumen(
+        decimal monto,
+        string ciudad,
+        string tipoCliente,
+        int cantidadItems,
+        string categoria,
+        decimal costoEnvio,
+        decimal costoAdicional
+    )
     {
         Console.WriteLine("\n===== RESUMEN =====");
-        Console.WriteLine("Monto: "           + pedido.Monto);
-        Console.WriteLine("Ciudad: "          + pedido.Ciudad);
-        Console.WriteLine("Tipo cliente: "    + pedido.TipoCliente);
-        Console.WriteLine("Cantidad items: "  + pedido.CantidadItems);
-        Console.WriteLine("Categoría: "       + pedido.Categoria);
-        Console.WriteLine("Costo envío: "     + pedido.CostoEnvio);
-        Console.WriteLine("Costo adicional: " + pedido.CostoAdicional);
-        Console.WriteLine("Total: "           + (pedido.CostoEnvio + pedido.CostoAdicional));
+        Console.WriteLine("Monto: " + monto);
+        Console.WriteLine("Ciudad: " + ciudad);
+        Console.WriteLine("Tipo cliente: " + tipoCliente);
+        Console.WriteLine("Cantidad items: " + cantidadItems);
+        Console.WriteLine("Categoría: " + categoria);
+        Console.WriteLine("Costo envío: " + costoEnvio);
+        Console.WriteLine("Costo adicional: " + costoAdicional);
+        Console.WriteLine("Total: " + (costoEnvio + costoAdicional));
     }
 
     /// <summary>
-    /// Lista todos los pedidos registrados mostrando su número, monto y categoría.
-    /// Si no hay pedidos, informa al usuario.
+    /// Muestra todos los pedidos registrados.
     /// </summary>
-    /// <param name="pedidos">Lista de pedidos a mostrar.</param>
-    public static void MostrarPedidos(List<Pedido> pedidos)
+    public static void MostrarPedidos(List<decimal> montos, List<string> categorias)
     {
-        if (pedidos.Count == 0)
+        if (montos.Count == 0)
         {
             Console.WriteLine("No hay pedidos.");
             return;
         }
 
-        for (int i = 0; i < pedidos.Count; i++)
+        for (int i = 0; i < montos.Count; i++)
         {
-            Console.WriteLine((i + 1) + ") " + pedidos[i].Monto + " - " + pedidos[i].Categoria);
+            Console.WriteLine(montos[i] + " - " + categorias[i]);
         }
     }
 
     /// <summary>
-    /// Muestra únicamente la cantidad total de pedidos registrados.
-    /// DRY: delega a MostrarReportes(pedidos, bool) con mostrarTotal = false.
+    /// Muestra la cantidad total de pedidos.
     /// </summary>
-    /// <param name="pedidos">Lista de pedidos registrados.</param>
-    public static void MostrarReportes(List<Pedido> pedidos)
+    public static void MostrarReportes(List<decimal> montos)
     {
-        MostrarReportes(pedidos, false);
+        Console.WriteLine("Total pedidos: " + montos.Count);
     }
 
     /// <summary>
-    /// Sobrecarga: muestra la cantidad de pedidos y, opcionalmente, la suma de todos los montos.
+    /// Muestra la cantidad de pedidos y opcionalmente la suma total.
     /// </summary>
-    /// <param name="pedidos">Lista de pedidos registrados.</param>
-    /// <param name="mostrarTotal">
-    /// Si es <c>true</c>, calcula e imprime la suma acumulada de los montos.
-    /// </param>
-    public static void MostrarReportes(List<Pedido> pedidos, bool mostrarTotal)
+    public static void MostrarReportes(List<decimal> montos, bool mostrarTotal)
     {
-        Console.WriteLine("Total pedidos: " + pedidos.Count);
+        Console.WriteLine("Total pedidos: " + montos.Count);
 
         if (mostrarTotal)
         {
             decimal suma = 0;
 
-            foreach (Pedido p in pedidos)
-                suma += p.Monto;
+            foreach (decimal m in montos)
+            {
+                suma += m;
+            }
 
             Console.WriteLine("Suma total: " + suma);
         }
